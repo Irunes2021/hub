@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CC Irunes">
+<meta name="theme-color" content="#0D2147">
+<title>Club Ciclista Irunes · Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0D2147;
+    --blue: #1A3A6B;
+    --blue-light: #4A7FD4;
+    --sky: #A8C8F0;
+    --text: #DDEEFF;
+    --muted: rgba(168,200,240,.5);
+    --card-bg: rgba(255,255,255,.06);
+    --card-border: rgba(74,127,212,.4);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--text);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 15% 20%, rgba(74,127,212,.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 85% 80%, rgba(26,58,107,.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(13,33,71,1) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem 4rem;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 3.5rem;
+    animation: fadeDown .6s ease both;
+  }
+
+  .logo-wrap {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1.2rem;
+  }
+
+  .logo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 20px;
+    background: #fff;
+    padding: 7px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.4);
+  }
+
+  .club-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: .3rem;
+  }
+
+  .club-sub {
+    font-size: .78rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .18em;
+    text-align: center;
+  }
+
+  /* Sections */
+  .section {
+    margin-bottom: 2.5rem;
+    animation: fadeUp .6s ease both;
+  }
+
+  .section:nth-child(2) { animation-delay: .15s; }
+  .section:nth-child(3) { animation-delay: .25s; }
+  .section:nth-child(4) { animation-delay: .35s; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: 1rem;
+  }
+
+  .section-label span {
+    font-size: .72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    color: var(--muted);
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(74,127,212,.25);
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  /* Card */
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.4rem;
+    background: var(--card-bg);
+    border: 1.5px solid var(--card-border);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all .22s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(74,127,212,.1) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity .22s;
+  }
+
+  .card:hover {
+    border-color: rgba(74,127,212,.75);
+    background: rgba(255,255,255,.10);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,.3);
+  }
+
+  .card:hover::before { opacity: 1; }
+
+  .card-icon {
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    width: 2.4rem;
+    text-align: center;
+  }
+
+  .card-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-title {
+    font-size: .95rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-desc {
+    font-size: .75rem;
+    color: var(--muted);
+    margin-top: .15rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-arrow {
+    font-size: 1.2rem;
+    color: var(--sky);
+    opacity: .5;
+    flex-shrink: 0;
+    transition: opacity .22s, transform .22s;
+  }
+
+  .card:hover .card-arrow {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    font-size: .72rem;
+    color: rgba(168,200,240,.3);
+    margin-top: 3rem;
+    letter-spacing: .08em;
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 480px) {
+    .page { padding: 2rem 1.2rem 3rem; }
+    .grid { grid-template-columns: 1fr; }
+    .club-name { font-size: 1.3rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="header">
+    <div class="logo-wrap">
+      <img src="https://app.ccirunes.com/icon-512-maskable.png" alt="CC Irunes">
+    </div>
+    <div class="club-name">Club Ciclista Irunes</div>
+    <div class="club-sub">Txirrindulari Elkartea · Panel de gestión</div>
+  </header>
+
+  <!-- Sociedad Gastronómica -->
+  <section class="section">
+    <div class="section-label"><span>Sociedad Gastronómica</span></div>
+    <div class="grid">
+      <a class="card" href="https://reservas.ccirunes.com" target="_blank">
+        <div class="card-icon">🗓️</div>
+        <div class="card-info">
+          <div class="card-title">Reservas</div>
+          <div class="card-desc">Gestión de mesas</div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+      <a class="card" href="https://notas.ccirunes.com" target="_blank">
+        <div class="card-icon">🧾</div>
+        <div class="card-info">
+          <div class="card-title">Notas de gasto</div>
+          <div class="card-desc">Registro de consumiciones</div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Club / Escuela -->
+  <section class="section">
+    <div class="section-label"><span>Club · Escuela</span></div>
+    <div class="grid">
+      <a class="card" href="https://corredores.ccirunes.com" target="_blank">
+        <div class="card-icon">🚴</div>
+        <div class="card-info">
+          <div class="card-title">Corredores</div>
+          <div class="card-desc">Gestión de la escuela</div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+      <a class="card" href="https://licencias.ccirunes.com" target="_blank">
+        <div class="card-icon">📋</div>
+        <div class="card-info">
+          <div class="card-title">Licencias</div>
+          <div class="card-desc">Federativas y UCI</div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+      <a class="card" href="https://tecnicos.ccirunes.com" target="_blank">
+        <div class="card-icon">👨‍🏫</div>
+        <div class="card-info">
+          <div class="card-title">Técnicos</div>
+          <div class="card-desc">Entrenadores y staff</div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+      <a class="card" href="https://dossier.ccirunes.com" target="_blank">
+        <div class="card-icon">📁</div>
+        <div class="card-info">
+          <div class="card-title">Dossier</div>
+          <div class="card-desc">Búsqueda de patrocinadores</div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Administración -->
+  <section class="section">
+    <div class="section-label"><span>Administración</span></div>
+    <div class="grid">
+      <a class="card" href="https://contabilidad.ccirunes.com" target="_blank">
+        <div class="card-icon">📊</div>
+        <div class="card-info">
+          <div class="card-title">Contabilidad</div>
+          <div class="card-desc">Movimientos y resumen</div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+      <a class="card" href="https://facturas.ccirunes.com" target="_blank">
+        <div class="card-icon">🧮</div>
+        <div class="card-info">
+          <div class="card-title">Facturas</div>
+          <div class="card-desc">Gestión de facturas</div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+      <a class="card" href="https://socios.ccirunes.com" target="_blank">
+        <div class="card-icon">👥</div>
+        <div class="card-info">
+          <div class="card-title">Socios</div>
+          <div class="card-desc">Gestión del padrón</div>
+        </div>
+        <div class="card-arrow">›</div>
+      </a>
+    </div>
+  </section>
+
+  <div class="footer">ccirunes.com · Panel interno</div>
+
+</div>
+
+</body>
+</html>
